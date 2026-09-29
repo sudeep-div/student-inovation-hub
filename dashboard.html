@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Innovation OS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =====================================================
+   FUTURISTIC FONT SYSTEM
+===================================================== */
+
+:root{
+    --font-main:'Space Grotesk',sans-serif;
+    --font-code:'DM Mono',monospace;
+
+    --green:#7CFF6B;
+    --green2:#23D96B;
+    --mint:#B8FFB0;
+
+    --bg:#06100b;
+    --panel:#0a1710;
+    --panel2:#0e2116;
+
+    --text:#ecfff0;
+    --muted:#82988a;
+
+    --line:rgba(124,255,107,.12);
+
+    --glow:rgba(124,255,107,.35);
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:var(--font-main);
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   ANIMATED GRID
+===================================================== */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-5;
+
+    background-image:
+
+    linear-gradient(
+        rgba(124,255,107,.035) 1px,
+        transparent 1px
+    ),
+
+    linear-gradient(
+        90deg,
+        rgba(124,255,107,.035) 1px,
+        transparent 1px
+    );
+
+    background-size:45px 45px;
+
+    mask-image:
+    linear-gradient(
+        to bottom,
+        black,
+        transparent 90%
+    );
+
+    animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+
+    from{
+        background-position:0 0;
+    }
+
+    to{
+        background-position:45px 45px;
+    }
+}
+
+
+/* =====================================================
+   GLOWING AMBIENT LIGHT
+===================================================== */
+
+.ambient{
+
+    position:fixed;
+
+    width:500px;
+    height:500px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(70,255,100,.12),
+        transparent 70%
+    );
+
+    filter:blur(20px);
+
+    pointer-events:none;
+
+    z-index:-3;
+
+    animation:ambientMove 14s infinite alternate ease-in-out;
+}
+
+.ambient.a1{
+    top:-200px;
+    right:-100px;
+}
+
+.ambient.a2{
+    bottom:-250px;
+    left:-150px;
+
+    animation-delay:4s;
+}
+
+@keyframes ambientMove{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-100px,80px);
+    }
+}
+
+
+/* =====================================================
+   SIDE NAVIGATION
+===================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    left:22px;
+    top:22px;
+    bottom:22px;
+
+    width:78px;
+
+    background:
+    rgba(8,24,14,.82);
+
+    backdrop-filter:blur(25px);
+
+    border:1px solid var(--line);
+
+    border-radius:25px;
+
+    z-index:50;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:18px 10px;
+
+    transition:.4s;
+}
+
+.sidebar:hover{
+
+    width:225px;
+
+    align-items:stretch;
+}
+
+
+/* logo */
+
+.logo{
+
+    height:55px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:0 7px;
+
+    margin-bottom:30px;
+
+    white-space:nowrap;
+}
+
+.logo-mark{
+
+    min-width:45px;
+    height:45px;
+
+    border-radius:14px;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--green),
+        #0e7a3d
+    );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#041008;
+
+    font-weight:bold;
+
+    font-size:21px;
+
+    box-shadow:
+    0 0 30px var(--glow);
+}
+
+.logo-text{
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+.sidebar:hover .logo-text{
+    opacity:1;
+}
+
+.logo-text strong{
+    display:block;
+}
+
+.logo-text small{
+
+    color:var(--muted);
+
+    font-family:var(--font-code);
+
+    font-size:9px;
+}
+
+
+/* navigation */
+
+.nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+}
+
+.nav button{
+
+    height:48px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:transparent;
+
+    color:#789082;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:0 13px;
+
+    font-family:var(--font-main);
+
+    font-size:13px;
+
+    transition:.3s;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+}
+
+.nav button:hover,
+.nav button.active{
+
+    color:var(--green);
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(124,255,107,.12),
+        transparent
+    );
+
+    box-shadow:
+    inset 2px 0 var(--green);
+}
+
+.nav-icon{
+
+    min-width:27px;
+
+    font-size:18px;
+
+    text-align:center;
+}
+
+.nav-label{
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+.sidebar:hover .nav-label{
+    opacity:1;
+}
+
+
+/* bottom */
+
+.side-bottom{
+
+    margin-top:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.side-bottom button{
+
+    height:45px;
+
+    border:1px solid var(--line);
+
+    background:rgba(255,255,255,.025);
+
+    color:#789082;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+}
+
+.side-bottom span{
+
+    opacity:0;
+
+    margin-left:8px;
+}
+
+.sidebar:hover .side-bottom span{
+    opacity:1;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main{
+
+    margin-left:125px;
+
+    padding:30px 35px 60px;
+
+    max-width:1700px;
+}
+
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+}
+
+.system-status{
+
+    font-family:var(--font-code);
+
+    font-size:10px;
+
+    color:var(--green);
+
+    letter-spacing:2px;
+}
+
+.system-status::before{
+
+    content:"";
+
+    display:inline-block;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    margin-right:8px;
+
+    box-shadow:0 0 12px var(--green);
+
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+    50%{
+        opacity:.3;
+        transform:scale(.7);
+    }
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.user-info{
+    text-align:right;
+}
+
+.user-info strong{
+    font-size:13px;
+}
+
+.user-info small{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-family:var(--font-code);
+
+    font-size:9px;
+
+    margin-top:3px;
+}
+
+.avatar{
+
+    width:43px;
+    height:43px;
+
+    border-radius:50%;
+
+    border:1px solid var(--green);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--green);
+
+    background:#0a1e11;
+
+    box-shadow:
+    0 0 20px rgba(124,255,107,.15);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+
+    display:grid;
+
+    grid-template-columns:1.5fr 1fr;
+
+    min-height:390px;
+
+    margin-bottom:25px;
+
+    border:1px solid var(--line);
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:
+
+    linear-gradient(
+        120deg,
+        rgba(11,31,18,.95),
+        rgba(5,17,10,.85)
+    );
+
+    position:relative;
+}
+
+
+/* scanning line */
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    height:1px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        var(--green),
+        transparent
+    );
+
+    opacity:.4;
+
+    animation:scan 5s linear infinite;
+}
+
+@keyframes scan{
+
+    from{
+        top:-5%;
+    }
+
+    to{
+        top:105%;
+    }
+}
+
+
+.hero-content{
+
+    padding:55px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.kicker{
+
+    font-family:var(--font-code);
+
+    color:var(--green);
+
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    margin-bottom:20px;
+}
+
+.hero h1{
+
+    font-size:
+    clamp(42px,5vw,75px);
+
+    line-height:.95;
+
+    font-weight:600;
+
+    letter-spacing:-4px;
+
+    max-width:700px;
+}
+
+.hero h1 span{
+
+    color:var(--green);
+
+    text-shadow:
+    0 0 35px rgba(124,255,107,.35);
+}
+
+.hero-description{
+
+    color:var(--muted);
+
+    max-width:570px;
+
+    margin-top:25px;
+
+    line-height:1.7;
+
+    font-size:14px;
+}
+
+.hero-actions{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:30px;
+}
+
+.primary{
+
+    padding:13px 22px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:var(--green);
+
+    color:#031008;
+
+    font-family:var(--font-main);
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 0 25px rgba(124,255,107,.18);
+
+    transition:.3s;
+}
+
+.primary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 35px rgba(124,255,107,.25);
+}
+
+.secondary{
+
+    padding:13px 22px;
+
+    border:1px solid var(--line);
+
+    border-radius:12px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   ORBIT SYSTEM
+===================================================== */
+
+.orbit-area{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+}
+
+.orbit{
+
+    width:280px;
+    height:280px;
+
+    border:1px solid rgba(124,255,107,.18);
+
+    border-radius:50%;
+
+    position:relative;
+
+    animation:rotate 18s linear infinite;
+}
+
+.orbit.two{
+
+    position:absolute;
+
+    width:210px;
+    height:210px;
+
+    animation:
+    rotateReverse 13s linear infinite;
+}
+
+.orbit.three{
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    animation:
+    rotate 27s linear infinite;
+}
+
+@keyframes rotate{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes rotateReverse{
+
+    to{
+        transform:rotate(-360deg);
+    }
+}
+
+.orbit-dot{
+
+    width:12px;
+    height:12px;
+
+    background:var(--green);
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:-6px;
+    left:50%;
+
+    box-shadow:
+    0 0 25px var(--green);
+}
+
+.core{
+
+    width:115px;
+    height:115px;
+
+    border-radius:50%;
+
+    background:
+
+    radial-gradient(
+        circle at 35% 30%,
+        #d5ffd1,
+        #55e86a 25%,
+        #0a592c 65%,
+        #04140a
+    );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    box-shadow:
+    0 0 60px rgba(124,255,107,.25);
+
+    position:absolute;
+
+    z-index:4;
+}
+
+.core strong{
+
+    font-size:31px;
+}
+
+.core small{
+
+    color:#d4fbd3;
+
+    font-family:var(--font-code);
+
+    font-size:8px;
+
+    letter-spacing:1px;
+}
+
+
+/* =====================================================
+   METRIC STRIP
+===================================================== */
+
+.metrics{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.metric{
+
+    min-height:130px;
+
+    border:1px solid var(--line);
+
+    background:rgba(9,25,15,.7);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.3s;
+}
+
+.metric:hover{
+
+    transform:translateY(-5px);
+
+    border-color:
+    rgba(124,255,107,.35);
+}
+
+.metric-number{
+
+    font-size:40px;
+
+    font-weight:600;
+
+    letter-spacing:-2px;
+
+    color:var(--green);
+}
+
+.metric-label{
+
+    font-family:var(--font-code);
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    letter-spacing:1px;
+
+    margin-top:5px;
+}
+
+.metric-line{
+
+    position:absolute;
+
+    left:0;
+    bottom:0;
+
+    height:2px;
+
+    background:
+    linear-gradient(
+        90deg,
+        var(--green),
+        transparent
+    );
+
+    width:70%;
+}
+
+
+/* =====================================================
+   CONTENT GRID
+===================================================== */
+
+.content-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    1.5fr .8fr;
+
+    gap:20px;
+}
+
+.panel{
+
+    border:1px solid var(--line);
+
+    background:
+    rgba(7,22,12,.72);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    backdrop-filter:blur(20px);
+}
+
+.panel-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.panel-title h3{
+
+    font-size:15px;
+
+    font-weight:500;
+}
+
+.panel-title span{
+
+    font-family:var(--font-code);
+
+    color:var(--muted);
+
+    font-size:9px;
+}
+
+
+/* chart */
+
+.chart{
+    height:280px;
+}
+
+
+/* =====================================================
+   PROJECT TIMELINE
+===================================================== */
+
+.timeline{
+
+    position:relative;
+
+    padding-left:25px;
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:4px;
+
+    top:0;
+    bottom:0;
+
+    width:1px;
+
+    background:
+    linear-gradient(
+        var(--green),
+        transparent
+    );
+}
+
+.timeline-item{
+
+    position:relative;
+
+    padding:0 0 25px 18px;
+}
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-25px;
+
+    top:4px;
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+    0 0 15px var(--green);
+}
+
+.timeline-item strong{
+
+    font-size:13px;
+
+    font-weight:500;
+}
+
+.timeline-item p{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:5px;
+}
+
+.timeline-item small{
+
+    font-family:var(--font-code);
+
+    color:#567062;
+
+    font-size:8px;
+}
+
+
+/* =====================================================
+   QUICK COMMANDS
+===================================================== */
+
+.commands{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.command{
+
+    padding:18px;
+
+    border:1px solid var(--line);
+
+    background:rgba(9,28,16,.7);
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.command:hover{
+
+    background:
+    rgba(124,255,107,.07);
+
+    transform:translateY(-4px);
+
+    border-color:
+    rgba(124,255,107,.3);
+}
+
+.command-icon{
+
+    font-size:21px;
+
+    margin-bottom:10px;
+}
+
+.command strong{
+
+    display:block;
+
+    font-size:12px;
+}
+
+.command small{
+
+    color:var(--muted);
+
+    font-size:9px;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+    rgba(0,0,0,.75);
+
+    backdrop-filter:blur(15px);
+
+    z-index:100;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+
+    width:420px;
+
+    background:#091a0f;
+
+    border:1px solid
+    rgba(124,255,107,.25);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.5);
+}
+
+.modal-box h2{
+
+    margin-bottom:20px;
+
+    font-weight:500;
+}
+
+.input{
+
+    width:100%;
+
+    padding:13px;
+
+    margin:6px 0;
+
+    border:1px solid var(--line);
+
+    border-radius:10px;
+
+    background:#06120a;
+
+    color:white;
+
+    outline:none;
+
+    font-family:var(--font-main);
+}
+
+.modal-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.modal-actions button{
+
+    flex:1;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    border:0;
+}
+
+.cancel{
+    background:#152119;
+    color:white;
+}
+
+.submit{
+    background:var(--green);
+    color:#031008;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    padding:14px 18px;
+
+    border:1px solid
+    rgba(124,255,107,.25);
+
+    background:#091b0e;
+
+    color:var(--green);
+
+    border-radius:12px;
+
+    font-family:var(--font-code);
+
+    font-size:10px;
+
+    transform:translateY(100px);
+
+    opacity:0;
+
+    transition:.35s;
+
+    z-index:200;
+}
+
+.toast.show{
+
+    transform:translateY(0);
+
+    opacity:1;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1100px){
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .orbit-area{
+        height:300px;
+    }
+
+    .metrics{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+        left:10px;
+        top:10px;
+        bottom:10px;
+    }
+
+    main{
+        margin-left:105px;
+        padding:20px 15px;
+    }
+
+    .hero-content{
+        padding:30px;
+    }
+
+    .hero h1{
+        font-size:42px;
+        letter-spacing:-2px;
+    }
+
+    .metrics{
+        grid-template-columns:1fr;
+    }
+
+    .commands{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="ambient a1"></div>
+<div class="ambient a2"></div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            ✦
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                INNOVATION OS
+            </strong>
+
+            <small>
+                STUDENT COMMAND CENTER
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <button class="active"
+                onclick="selectNav(this,'Dashboard')">
+
+            <span class="nav-icon">⌂</span>
+
+            <span class="nav-label">
+                Dashboard
+            </span>
+
+        </button>
+
+
+        <button onclick="selectNav(this,'Projects')">
+
+            <span class="nav-icon">◈</span>
+
+            <span class="nav-label">
+                Projects
+            </span>
+
+        </button>
+
+
+        <button onclick="selectNav(this,'Analytics')">
+
+            <span class="nav-icon">⌁</span>
+
+            <span class="nav-label">
+                Analytics
+            </span>
+
+        </button>
+
+
+        <button onclick="selectNav(this,'EDA')">
+
+            <span class="nav-icon">⌕</span>
+
+            <span class="nav-label">
+                Exploratory Analysis
+            </span>
+
+        </button>
+
+
+        <button onclick="selectNav(this,'Preprocessing')">
+
+            <span class="nav-icon">⚙</span>
+
+            <span class="nav-label">
+                Preprocessing
+            </span>
+
+        </button>
+
+
+        <button onclick="selectNav(this,'Reports')">
+
+            <span class="nav-icon">▤</span>
+
+            <span class="nav-label">
+                Reports
+            </span>
+
+        </button>
+
+    </nav>
+
+
+    <div class="side-bottom">
+
+        <button onclick="toggleTheme()">
+            ◐ <span>Theme</span>
+        </button>
+
+        <button onclick="logout()">
+            ⇥ <span>Logout</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="system-status">
+                SYSTEM ONLINE
+            </div>
+
+        </div>
+
+
+        <div class="user">
+
+            <div class="user-info">
+
+                <strong id="userName">
+                    Student
+                </strong>
+
+                <small id="userDepartment">
+                    CSE • INNOVATOR
+                </small>
+
+            </div>
+
+            <div class="avatar" id="avatar">
+                ST
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         HERO
+    ================================================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="kicker">
+                // YOUR INNOVATION COMMAND CENTER
+            </div>
+
+            <h1>
+                THINK.<br>
+                BUILD.<br>
+                <span>CREATE IMPACT.</span>
+            </h1>
+
+            <p class="hero-description">
+
+                Transform ideas into measurable innovation.
+                Track projects, analyze data and discover
+                opportunities from one intelligent workspace.
+
+            </p>
+
+
+            <div class="hero-actions">
+
+                <button class="primary"
+                        onclick="openModal()">
+
+                    + NEW INNOVATION
+
+                </button>
+
+                <button class="secondary"
+                        onclick="toast('Analytics workspace opened')">
+
+                    EXPLORE DATA →
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="orbit-area">
+
+            <div class="orbit three">
+                <div class="orbit-dot"></div>
+            </div>
+
+            <div class="orbit">
+                <div class="orbit-dot"></div>
+            </div>
+
+            <div class="orbit two">
+                <div class="orbit-dot"></div>
+            </div>
+
+
+            <div class="core">
+
+                <strong>
+                    84
+                </strong>
+
+                <small>
+                    INNOVATION INDEX
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         METRICS
+    ================================================= -->
+
+    <section class="metrics">
+
+
+        <div class="metric">
+
+            <div class="metric-number"
+                 data-target="128">
+                0
+            </div>
+
+            <div class="metric-label">
+                REGISTERED STUDENTS
+            </div>
+
+            <div class="metric-line"></div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-number"
+                 data-target="64">
+                0
+            </div>
+
+            <div class="metric-label">
+                ACTIVE PROJECTS
+            </div>
+
+            <div class="metric-line"></div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-number"
+                 data-target="42">
+                0
+            </div>
+
+            <div class="metric-label">
+                COMPLETED PROJECTS
+            </div>
+
+            <div class="metric-line"></div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-number"
+                 data-target="91">
+                0
+            </div>
+
+            <div class="metric-label">
+                COLLABORATION INDEX
+            </div>
+
+            <div class="metric-line"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ANALYTICS
+    ================================================= -->
+
+    <section class="content-grid">
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <h3>
+                    Innovation Momentum
+                </h3>
+
+                <span>
+                    LIVE / 2026
+                </span>
+
+            </div>
+
+            <div class="chart">
+
+                <canvas id="chart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <h3>
+                    Project Timeline
+                </h3>
+
+                <span>
+                    ACTIVITY
+                </span>
+
+            </div>
+
+
+            <div class="timeline">
+
+
+                <div class="timeline-item">
+
+                    <strong>
+                        AI Attendance System
+                    </strong>
+
+                    <p>
+                        Prototype completed
+                    </p>
+
+                    <small>
+                        08:42 TODAY
+                    </small>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <strong>
+                        Smart Farming
+                    </strong>
+
+                    <p>
+                        Dataset analyzed
+                    </p>
+
+                    <small>
+                        10:18 TODAY
+                    </small>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <strong>
+                        Waste Management
+                    </strong>
+
+                    <p>
+                        EDA completed
+                    </p>
+
+                    <small>
+                        YESTERDAY
+                    </small>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <strong>
+                        Bus Tracking
+                    </strong>
+
+                    <p>
+                        New innovation submitted
+                    </p>
+
+                    <small>
+                        YESTERDAY
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         COMMANDS
+    ================================================= -->
+
+    <section class="commands">
+
+
+        <div class="command"
+             onclick="openModal()">
+
+            <div class="command-icon">
+                ◈
+            </div>
+
+            <strong>
+                New Innovation
+            </strong>
+
+            <small>
+                Submit project
+            </small>
+
+        </div>
+
+
+        <div class="command"
+             onclick="toast('Data Analytics launched')">
+
+            <div class="command-icon">
+                ∿
+            </div>
+
+            <strong>
+                Data Analytics
+            </strong>
+
+            <small>
+                Analyze dataset
+            </small>
+
+        </div>
+
+
+        <div class="command"
+             onclick="toast('EDA workspace launched')">
+
+            <div class="command-icon">
+                ⌕
+            </div>
+
+            <strong>
+                EDA Workspace
+            </strong>
+
+            <small>
+                Find patterns
+            </small>
+
+        </div>
+
+
+        <div class="command"
+             onclick="toast('Report generator started')">
+
+            <div class="command-icon">
+                ▤
+            </div>
+
+            <strong>
+                Generate Report
+            </strong>
+
+            <small>
+                Export analysis
+            </small>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h2>
+            New Innovation
+        </h2>
+
+        <input
+            class="input"
+            id="projectName"
+            placeholder="Innovation title"
+        >
+
+        <input
+            class="input"
+            id="projectDept"
+            placeholder="Department"
+        >
+
+        <input
+            class="input"
+            id="projectScore"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Innovation score"
+        >
+
+        <div class="modal-actions">
+
+            <button class="cancel"
+                    onclick="closeModal()">
+
+                Cancel
+
+            </button>
+
+            <button class="submit"
+                    onclick="submitProject()">
+
+                Create Innovation
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toastBox"></div>
+
+
+<script>
+
+/* =====================================================
+   USER
+===================================================== */
+
+const user =
+JSON.parse(
+    sessionStorage.getItem("currentStudent")
+);
+
+if(user){
+
+    const name =
+        user.name ||
+        user.fullName ||
+        "Student";
+
+    const department =
+        user.department ||
+        "CSE";
+
+    document.getElementById("userName")
+        .textContent = name;
+
+    document.getElementById("userDepartment")
+        .textContent =
+        department.toUpperCase()
+        + " • INNOVATOR";
+
+    document.getElementById("avatar")
+        .textContent =
+        name.substring(0,2)
+        .toUpperCase();
+}
+
+
+/* =====================================================
+   COUNTERS
+===================================================== */
+
+document
+.querySelectorAll("[data-target]")
+.forEach(counter=>{
+
+    const target =
+        Number(counter.dataset.target);
+
+    let value=0;
+
+    const step =
+        Math.max(1,Math.ceil(target/60));
+
+    const timer =
+        setInterval(()=>{
+
+            value += step;
+
+            if(value >= target){
+
+                value=target;
+
+                clearInterval(timer);
+            }
+
+            counter.textContent=value;
+
+        },25);
+
+});
+
+
+/* =====================================================
+   CHART
+===================================================== */
+
+new Chart(
+    document.getElementById("chart"),
+    {
+
+        type:"line",
+
+        data:{
+
+            labels:[
+                "JAN",
+                "FEB",
+                "MAR",
+                "APR",
+                "MAY",
+                "JUN",
+                "JUL",
+                "AUG",
+                "SEP"
+            ],
+
+            datasets:[{
+
+                data:[
+                    35,
+                    41,
+                    48,
+                    45,
+                    58,
+                    63,
+                    69,
+                    77,
+                    84
+                ],
+
+                borderColor:"#7CFF6B",
+
+                backgroundColor:
+                "rgba(124,255,107,.07)",
+
+                fill:true,
+
+                tension:.45,
+
+                borderWidth:2,
+
+                pointRadius:4,
+
+                pointBackgroundColor:
+                "#7CFF6B"
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            maintainAspectRatio:false,
+
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+
+            scales:{
+
+                x:{
+                    grid:{
+                        display:false
+                    },
+
+                    ticks:{
+                        color:"#61796a",
+
+                        font:{
+                            family:"DM Mono",
+                            size:9
+                        }
+                    }
+                },
+
+                y:{
+
+                    min:0,
+                    max:100,
+
+                    grid:{
+                        color:
+                        "rgba(124,255,107,.05)"
+                    },
+
+                    ticks:{
+                        color:"#61796a",
+
+                        font:{
+                            family:"DM Mono",
+                            size:9
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   NAV
+===================================================== */
+
+function selectNav(button,name){
+
+    document
+    .querySelectorAll(".nav button")
+    .forEach(btn =>
+        btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+    toast(
+        name.toUpperCase()
+        + " MODULE SELECTED"
+    );
+}
+
+
+/* =====================================================
+   THEME
+===================================================== */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    toast("Interface theme changed");
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function openModal(){
+
+    document
+    .getElementById("modal")
+    .classList.add("show");
+
+}
+
+function closeModal(){
+
+    document
+    .getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+function submitProject(){
+
+    const name =
+        document
+        .getElementById("projectName")
+        .value
+        .trim();
+
+    if(!name){
+
+        toast(
+            "ENTER AN INNOVATION TITLE"
+        );
+
+        return;
+    }
+
+    closeModal();
+
+    document
+    .getElementById("projectName")
+    .value="";
+
+    document
+    .getElementById("projectDept")
+    .value="";
+
+    document
+    .getElementById("projectScore")
+    .value="";
+
+    toast(
+        "✓ INNOVATION CREATED"
+    );
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(message){
+
+    const box =
+        document.getElementById("toastBox");
+
+    box.textContent=message;
+
+    box.classList.add("show");
+
+    setTimeout(()=>{
+
+        box.classList.remove("show");
+
+    },2500);
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "currentStudent"
+    );
+
+    window.location.href="login.html";
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+document
+.getElementById("modal")
+.addEventListener("click",e=>{
+
+    if(e.target.id==="modal"){
+
+        closeModal();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
